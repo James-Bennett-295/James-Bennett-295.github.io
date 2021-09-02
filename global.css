@@ -1,0 +1,40 @@
+body {
+    background-color: #2c2c2c;
+}
+
+p {
+    color: #ffffff;
+    font-family: "Times New Roman", Times, serif;
+}
+
+h1 {
+    color: #ffffff;
+    font-family: "Times New Roman", Times, serif;
+}
+
+.header {
+    padding: 8px;
+    text-align: center;
+    background: #181818;
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
+
+.navButton {
+    background-color: #5a5a5a;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+table, th, td {
+    border:1px solid #95ff32;
+    color: #fff23c;
+}
