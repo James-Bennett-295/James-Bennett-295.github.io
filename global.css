@@ -38,3 +38,15 @@ table, th, td {
     border:1px solid #95ff32;
     color: #fff23c;
 }
+
+a:link {
+    color: #4fffff;
+}
+
+a:visited {
+    color: #ff67cc;
+}
+
+ul {
+    color: #ffffff;
+}
