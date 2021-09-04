@@ -50,3 +50,11 @@ a:visited {
 ul {
     color: #ffffff;
 }
+
+.terminal {
+    background-color: #141414;
+    color: #82ff2e;
+    border-radius: 8px;
+    padding: 5px;
+    display: inline-block;
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Linux MC Server</title>
+        <link rel="stylesheet" href="/global.css">
+        <script src="/global.js"></script>
+    </head>
+    <body>
+        <p>Please note that this tutorial is for Oracle Linux so you may need to do things slightly differently if you are using a different distro.</p>
+
+        <h1>1) Install Java</h1>
+
+        <p>Firstly, make sure Java is not already installed:</p>
+        <div class="terminal">
+            [james@cobalt ~]$ java --version<br>
+            -bash: java: command not found
+        </div>
+
+        <p>Now download and install Java 16 by doing the following:</p>
+        <div class="terminal">
+            [james@cobalt ~]$ wget https://download.java.net/java/GA/jdk16.0.2/d4a915d82b4c4fbb9bde534da945d746/7/GPL/openjdk-16.0.2_linux-x64_bin.tar.gz<br>
+            [james@cobalt ~]$ tar -xvf openjdk-16.0.2_linux-x64_bin.tar.gz<br>
+            [james@cobalt ~]$ sudo mv ./jdk-16.0.2/ /opt/<br>
+            [james@cobalt ~]$ export JAVA_HOME=/opt/jdk-16.0.2/<br>
+            [james@cobalt ~]$ export PATH=$PATH:$JAVA_HOME/bin/
+            [james@cobalt ~]$ rm openjdk-16.0.2_linux-x64_bin.tar.gz
+        </div>
+
+        <p>Java 16 should now be installed, do the following command to check:</p>
+        <div class="terminal">
+            [james@cobalt ~]$ java --version
+        </div>
+
+        <h1>2) Setup the Minecraft server</h1>
+
+        <p>Come up with a name for the folder the server will be in. I will call my folder "mcSrv".</p>
+        <p>Do the following commands, replacing "mcSrv" with your choice of name (or you can name it the same as my folder):</p>
+        <div class="terminal">
+            [james@cobalt ~]$ mkdir mcSrv # Make a folder called "mcSrv"<br>
+            [james@cobalt ~]$ cd mcSrv # Go into the "mcSrv" folder
+        </div>
+
+        <p>Make sure you agree with the <a href="https://account.mojang.com/documents/minecraft_eula" target="_blank">Minecraft EULA</a> before continuing.</p>
+
+        <p>Now go to the <a href="https://papermc.io/downloads" target="_blank">PaperMC Downloads</a> page and see what the latest build number is. Do the following commands,<br>
+            replacing {build} with the latest PaperMC build, and {version} with the latest Minecraft version:</p>
+        <div class="terminal">
+            [james@cobalt mcSrv]$ wget https://papermc.io/api/v2/projects/paper/versions/{version}/builds/{build}/downloads/paper-{version}-{build}.jar # Download the latest PaperMC jar file<br>
+            [james@cobalt mcSrv]$ echo "eula=true" >> eula.txt # Create a file named "eula.txt" with the content "eula=true" to show you agree with the Minecraft EULA<br>
+            [james@cobalt mcSrv]$ mv paper-{version}-{build}.jar paper.jar # Rename the jar file from "paper-{version}-{build}.jar" to "paper.jar"<br>
+            [james@cobalt mcSrv]$ java -jar paper.jar nogui # Start the MC Server
+        </div>
+
+        <p>Now the Minecraft server should be starting. Wait until it says "Timings Reset" then run the "stop" command.</p>
+
+        <h1>3) Create a start script</h1>
+
+        <p>Run the following command to create a file called "start.sh" and allow you to edit it:</p>
+        <div class="terminal">
+            [james@cobalt mcSrv]$ vi start.sh
+        </div>
+
+        <p>It will be in read-only mode so press 'i' to be able to edit it, now type out the following inside, replacing {ram} with the amount of gigabytes ram you want dedicated to the server:</p>
+        <div class="terminal">
+            java -jar -Xms{ram}G -Xmx{ram}G ./paper.jar nogui<br>
+            echo -e "\n\nThe server has stopped and will start again in 10 seconds.\nDo Ctrl+C to cancel."<br>
+            sleep 10<br>
+            ./start.sh
+        </div>
+        <p>Now press Esc and run the command ":wq" to save the file and exit.</p>
+
+        <p>Now run the following command to get permission to run the script:</p>
+        <div class="terminal">
+            [james@cobalt mcSrv]$ sudo chmod +x start.sh
+        </div>
+
+        <p>Whenever you want to start the server, go into the server folder and run the command "./start.sh".</p>
+
+        <h1>4) Port forward the server</h1>
+
+        <p>Port forward on the server by running the following two commands:</p>
+        <div class="terminal">
+            [james@cobalt mcSrv]$ sudo firewall-cmd --permanent --add-port=25565/tcp<br>
+            [james@cobalt mcSrv]$ sudo firewall-cmd --reload
+        </div>
+
+        <p>If you are running the server on your home network, you need to port forward on your router. <a href="https://www.wikihow.com/Set-Up-Port-Forwarding-on-a-Router" target="_blank">Here is a WikiHow guide on how to do that</a>.</p>
+
+        <h1>5) Connect to the server</h1>
+
+        <p>Firstly, get the public IP of the server. If you are running the server on your home network <a href="https://duckduckgo.com/?q=my+ip" target="_blank">search "my ip"</a>.<br>
+        If you are running the server in the cloud they will let you know the IP.</p>
+
+        <p>Now open Minecraft, go into the Multiplayer menu, then click "Add Server". Set the Server Address as "{IP}:25565" replacing {IP} with the public IP of the server.<br>Press "Done" when you have completed this. You can now join by clicking on the server and pressing "Join Server".</p>
+    </body>
+</html>
